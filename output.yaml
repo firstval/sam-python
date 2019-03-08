@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM Tutorial
+Resources:
+  HelloLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: EC2Restart
+      Handler: restart.lambda_handler
+      Runtime: python3.7
+      CodeUri: s3://lambd4buck3t/729c0abe6a5dd5a3fa998a79fa78f9f8
+      MemorySize: 128
+      Timeout: 180
+      Role:
+        Fn::GetAtt:
+        - LambdaRole
+        - Arn
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AmazonEC2FullAccess
